@@ -1,0 +1,12 @@
+allFromStudents;SELECT * FROM Students ORDER BY id ASC;gritacademyportal;localhost;3306;user;user
+allFromCourses;SELECT * FROM Courses ORDER BY id ASC;gritacademyportal;localhost;3306;user;user
+allCoursesForStudent;SELECT s.id, s.fname, s.lname, k.namn, k.YHP, k.beskrivning FROM studenter s JOIN narvaro n ON n.studentID=s.id JOIN kurser k ON k.id=n.kursID WHERE s.fname='{0}' AND s.lname='{1}' AND s.id='{2}' ORDER BY s.id ASC;gritacademyportal;localhost;3306;user;user allCoursesForStudentNoID;SELECT s.id, s.fname, s.lname, k.namn, k.YHP, k.beskrivning FROM studenter s JOIN narvaro n ON n.studentID=s.id JOIN kurser k ON k.id=n.kursID WHERE s.fname='{0}' AND s.lname='{1}' ORDER BY s.id ASC;gritacademyportal;localhost;3306;user;user
+allCoursesForStudentID;SELECT c.id, c.name, c.YHP, c.description, c.id FROM Students s JOIN Students_Courses sc ON sc.students_id=s.id JOIN Courses c ON c.id=sc.Courses_id WHERE s.id='{0}' ORDER BY s.id ASC;gritacademyportal;localhost;3306;user;user
+allPeopleInCourse;SELECT c.name, s.fName, s.lName, t.fName, t.lName  FROM Students s JOIN Students_Courses sc ON sc.students_id=s.id LEFT JOIN Teachers_Courses tc ON sc.courses_id=tc.courses_id LEFT JOIN Courses c ON c.id=sc.courses_id  LEFT JOIN Teachers t ON t.id=tc.teachers_id WHERE c.id='{0}' ORDER BY s.id ASC;gritacademy;localhost;3306;user;user
+justCourseIDForStudentID;SELECT c.id FROM Students s JOIN Students_Courses sc ON sc.students_id=s.id JOIN Courses c ON c.id=sc.courses_id WHERE s.id='{0}' ORDER BY s.id ASC;gritacademy;localhost;3306;user;user
+
+addStudentToStudents;INSERT INTO studenter (fname, lname, town, hobby) VALUES (?,?,?,?);gritacademydb;localhost;3306;inserter;inserter
+studentLogin;Select * FROM Students s WHERE s.username='{0}' AND s.password='{1}';gritacademydb;localhost;3306;user;user
+teacherLogin;Select * FROM Teachers t WHERE t.username='{0}' AND t.password='{1}';gritacademydb;localhost;3306;user;user
+
+findUser;SELECT username, password FROM users s WHERE s.username='{0}' AND s.password='{1}' ORDER BY s.id ASC;gritacademyportal;localhost;3306;user;user
