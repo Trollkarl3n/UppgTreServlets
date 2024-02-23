@@ -3,9 +3,6 @@ package model;
 
 import java.io.Serializable;
 
-/**
- * User bean represents the user connected to the Grit Academy Portal
- */
 public class UserBean implements Serializable {
 
     //should be set to the same is it is in the DB
@@ -13,12 +10,6 @@ public class UserBean implements Serializable {
     private USER_TYPE userType;
     private PRIVILAGE_TYPE privilageType = PRIVILAGE_TYPE.user;
     private STATE_TYPE stateType = STATE_TYPE.anonymous;
-    public UserBean(String id, USER_TYPE userType, PRIVILAGE_TYPE privilageType, STATE_TYPE stateType){
-        this.id=id;
-        this.userType=userType;
-        this.privilageType=privilageType;
-        this.stateType=stateType;
-    }
 
     public void setId(String id) {
         this.id = id;
@@ -48,6 +39,13 @@ public class UserBean implements Serializable {
 
     public USER_TYPE getUserType() {
         return userType;
+    }
+
+    public UserBean(String id, USER_TYPE userType, PRIVILAGE_TYPE privilageType, STATE_TYPE stateType){
+        this.id=id;
+        this.userType=userType;
+        this.privilageType=privilageType;
+        this.stateType=stateType;
     }
 
     @Override

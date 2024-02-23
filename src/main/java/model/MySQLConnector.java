@@ -12,7 +12,7 @@ public class MySQLConnector {
     private final String databaseName = "gritacademydb";
     private final String host = "localhost";
     private final int port = 3306;
-    private final String username = "root";
+    private final String username = "User";
     private final String password = "";
 
     final private String queriesPath = "src/main/java/model/queries.csv";

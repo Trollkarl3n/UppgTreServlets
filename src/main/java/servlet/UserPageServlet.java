@@ -22,7 +22,6 @@ public class UserPageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         UserBean userBean = (UserBean) req.getSession().getAttribute("userBean");
 
         if (userBean == null || userBean.getStateType() != STATE_TYPE.confirmed) {
@@ -32,31 +31,12 @@ public class UserPageServlet extends HttpServlet {
 
         if (userBean.getUserType() == USER_TYPE.student) {
             // Fetch courses for student
-            LinkedList<String[]> courses = MySQLConnector.getConnector().selectQuery("allCoursesForStudentID", userBean.getId());
-            courses.removeFirst();
+            LinkedList<String[]> courses = fetchStudentCourses(userBean.getId());
             req.setAttribute("courses", courses);
 
-            LinkedList<String[]> courseIdList = MySQLConnector.getConnector().selectQuery("justCourseIDForStudentID", userBean.getId());
-            courseIdList.removeFirst();
-
-            ArrayList<String> integerCourseIdList = new ArrayList<>();
-            for(String[] a : courseIdList)
-                integerCourseIdList.addAll(Arrays.asList(a));
-
-            String[] column = new String[5];
-            column[0] = "name";
-            column[1] = "fName";
-            column[2] = "lName";
-            column[3] = "fName";
-            column[4] = "lName";
-
-            LinkedList<String[]> students = new LinkedList<>();
-            for (String i : integerCourseIdList)
-                students.addAll(MySQLConnector.getConnector().selectQuery("allPeopleInCourse", i));
-            students.removeIf(n -> (Arrays.equals(n, column)));
+            // Fetch students in the same courses
+            LinkedList<String[]> students = fetchStudentsInCourses(userBean.getId());
             req.setAttribute("students", students);
-
-            req.getRequestDispatcher("JSP/userPage.jsp").forward(req, resp);
         } else if (userBean.getUserType() == USER_TYPE.teacher) {
             // Fetch all courses
             LinkedList<String[]> courses = MySQLConnector.getConnector().selectQuery("allFromCourses");
@@ -65,8 +45,35 @@ public class UserPageServlet extends HttpServlet {
             // Fetch all students
             LinkedList<String[]> students = MySQLConnector.getConnector().selectQuery("allFromStudents");
             req.setAttribute("students", students);
-
-            req.getRequestDispatcher("JSP/userPage.jsp").forward(req, resp);
         }
+
+        req.getRequestDispatcher("JSP/userPage.jsp").forward(req, resp);
+    }
+
+    private LinkedList<String[]> fetchStudentCourses(String studentId) {
+        LinkedList<String[]> courses = MySQLConnector.getConnector().selectQuery("allCoursesForStudentID", studentId);
+        courses.removeFirst(); // Remove header row
+        return courses;
+    }
+
+    private LinkedList<String[]> fetchStudentsInCourses(String studentId) {
+        LinkedList<String[]> courseIdList = MySQLConnector.getConnector().selectQuery("justCourseIDForStudentID", studentId);
+        courseIdList.removeFirst(); // Remove header row
+
+        ArrayList<String> integerCourseIdList = new ArrayList<>();
+        for (String[] courseIdArray : courseIdList) {
+            integerCourseIdList.addAll(Arrays.asList(courseIdArray));
+        }
+
+        LinkedList<String[]> students = new LinkedList<>();
+        for (String courseId : integerCourseIdList) {
+            LinkedList<String[]> studentsInCourse = MySQLConnector.getConnector().selectQuery("allPeopleInCourse", courseId);
+            studentsInCourse.removeFirst(); // Remove header row
+            String[] column = {"name", "fName", "lName", "fName", "lName"}; // Assuming this represents a header row
+            studentsInCourse.removeIf(row -> Arrays.equals(row, column)); // Remove header if present
+            students.addAll(studentsInCourse);
+        }
+
+        return students;
     }
 }

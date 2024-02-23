@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: center;
+}
+
+header {
+    text-align: center;
+    position: relative;
+}
+
+h2 {
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Montserrat Alternates', sans-serif; /* Välj font */
+}
+
+.navlinks {
+    flex: 1;
+    text-align: center;
+}
+
+.navlinks ul {
+    list-style: none; /* Ta bort punktlistan */
+    padding: 0; /* Ta bort indragning */
+}
+
+.navlinks ul li {
+    display: inline-block; /* Visa element bredvid varandra */
+}
+
+.navlinks ul li a {
+    color: black;
+    text-decoration: none;
+    font-size: 23px;
+    padding: 10px; /* Lägg till lite utfyllnad för att skilja länkarna */
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+}
+
+.error-message {
+    color: red;
+}
+
+#data {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    position: center;
+}
+
+#data td, #data th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    position: center;
+}
+
+#data tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#data tr:hover {
+    background-color: #ddd;
+}
+
+#data th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+    position: center;
+}
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: gray;
+    text-align: center;
+}
